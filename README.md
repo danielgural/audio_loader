@@ -1,6 +1,6 @@
 ## Audio Loader
 
-![audio_loader](https://github.com/danielgural/semantic_video_search/blob/main/assets/audio.gif)
+![audio_loader](https://github.com/danielgural/audio_loader/blob/main/assets/audio.gif)
 
 This FiftyOne plugin is a Python plugin that allows for you to load in your audio datasets as spectograms in FiftyOne!
 
