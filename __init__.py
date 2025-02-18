@@ -29,7 +29,7 @@ class LoadAudio(foo.Operator):
             name="load_audio",
             label="Load Audio",
             description="Loads in sound data as spectograms by taking in a directory in the format of ImageClassificationTree but with \".wav\" files",
-            icon="/path/to/icon.svg",
+            icon="/assets/audio.svg",
             dynamic=True,
             execute_as_generator=True,
         )
@@ -61,8 +61,8 @@ def _audio_loader_inputs(ctx, inputs):
     )
     prop = inputs.file(
         "input_path",
+        description=f"Choose the directory containing wav files (must be in AudioClassificationTree format).",
         label="Input path",
-        description=f"Choose a dir that contains sound data in the format of AudioClassificationTree. UPDATE FOR DOCS",
         required=True,
         view=file_explorer,
     )
@@ -78,7 +78,7 @@ def _audio_loader_inputs(ctx, inputs):
     inputs.file(
         "output_dir",
         label="Output directory",
-        description="Choose a directory to write the spectogram images",
+        description="Choose a directory to write the spectogram images to (can be the same as input directory).",
         required=True,
         view=file_explorer,
     )
@@ -101,8 +101,6 @@ def wav_to_spectrogram(wav_file,output_dir):
     # Generate a spectrogram
     frequencies, times, Sxx = ss.spectrogram(audio_data, fs=sample_rate)
 
-    
-
     # Create a new directory path by joining the existing directory with the new directory name
     spectograms_path = output_dir + "/" + wav_file.split("/")[-2] + "_spectograms"
 
@@ -116,7 +114,7 @@ def wav_to_spectrogram(wav_file,output_dir):
     plt.xlabel('Time [sec]')
     plt.title('Spectrogram')
     plt.colorbar(label='Intensity [dB]')
-    image_path = spectograms_path + "/" + wav_file.split("/")[-1].split(".")[0] + ".png"
+    image_path = spectograms_path + "/" + os.path.splitext(wav_file.split("/")[-1])[0] + ".png" # more robust way to get the file name
     plt.savefig(image_path)
     plt.close()
     image_path = os.path.abspath(image_path)
